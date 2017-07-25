@@ -54,31 +54,45 @@ a:hover {
   text-decoration: underline;
 }
 
+.content-container {
+  display: flex;
+  flex-flow: row;
+}
+
+.options-box, table {
+  flex: 1 100%;
+}
+
 .options-box {
-  padding: 0;
-  float: left;
+  padding-left: 0;
   display: flex;
   flex-direction: column;
   list-style: none;
-  width: 200px;
-  height: 250px;
+  min-width: 200px;
   border-radius: 5px;
   border: 1px solid #0288d1;
   background-color: #b3e5fc;
-  margin-right: -100px;
+  margin: 0 25px 0 0;
+}
+
+.options-box li {
+  margin: 10px 0;
 }
 
 .options-links {
   text-decoration: none;
-  padding: 10px 40px 10px 20px;
+  margin: 10px 0;
   color: #01579b;
+}
+
+.options-links:hover {
+  color: #0288d1;
 }
 
 table {
   border: 1px solid #222;
   border-collapse: collapse;
-  max-width: 100%;
-  margin: 0 auto;
+  min-width: 75%;
 }
 
 th, td {
@@ -93,4 +107,17 @@ th {
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+@media all and (min-width: 800px) {
+  .options-box {
+    flex-grow: 1;
+    order: 1;
+  }
+
+  table {
+    flex-grow: 3;
+    flex-basis: 0;
+    order: 2;
+  }
 }

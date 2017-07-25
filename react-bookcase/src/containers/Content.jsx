@@ -12,8 +12,10 @@ export class Content extends React.Component {
         <h2 className="App-description">
           Feel free to add, update and remove books as you please.
         </h2>
-        <OptionsBox />
-        <Table />
+        <div className="content-container">
+          <OptionsBox />
+          <Table />
+        </div>
       </div>
     );
   }

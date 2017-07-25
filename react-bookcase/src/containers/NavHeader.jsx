@@ -19,6 +19,7 @@ export class NavHeader extends React.Component {
             <Link href="#" text="Docs" className="nav-links" />
           </li>
         </ul>
+        
       </nav>
     );
   }
