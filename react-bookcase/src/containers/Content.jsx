@@ -1,12 +1,19 @@
 import * as React from 'react';
+import { Table } from './Table';
+import { OptionsBox } from './OptionsBox';
 
 export class Content extends React.Component {
   render() {
     return (
       <div className="App-content">
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h1 className="App-intro">
+          Welcome to the React Bookcase!
+        </h1>
+        <h2 className="App-description">
+          Feel free to add, update and remove books as you please.
+        </h2>
+        <OptionsBox />
+        <Table />
       </div>
     );
   }

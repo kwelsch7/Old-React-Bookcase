@@ -4,18 +4,28 @@
   float: left;
 }
 
-.App-header {
+.App-nav-header {
   background-color: #222;
-  padding: 20px 250px;
+  padding: 10px 250px 15px 250px;
   color: white;
 }
 
 .App-content {
   padding: 0 250px;
+  text-align: center;
 }
 
 .App-intro {
+  font-size: x-large;
+  margin-top: 25px;
+  margin-bottom: 0;
+}
+
+.App-description {
+  font-weight: normal;
   font-size: large;
+  margin-top: 5px;
+  margin-bottom: 25px;
 }
 
 .title-message {
@@ -29,11 +39,55 @@
   margin: 0;
 }
 
-a {
+.nav-links {
   text-decoration: none;
   color: #eee;
   flex-direction: row;
   padding-right: 15px;
+}
+
+.nav-links:hover {
+  color: #aaa;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.options-box {
+  padding: 0;
+  float: left;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  width: 200px;
+  height: 250px;
+  border-radius: 5px;
+  border: 1px solid #0288d1;
+  background-color: #b3e5fc;
+  margin-right: -100px;
+}
+
+.options-links {
+  text-decoration: none;
+  padding: 10px 40px 10px 20px;
+  color: #01579b;
+}
+
+table {
+  border: 1px solid #222;
+  border-collapse: collapse;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+th, td {
+  border: 1px solid #bbb;
+}
+
+th {
+  border-bottom: 2px solid #999;
+  background-color: #61dafb;
 }
 
 @keyframes App-logo-spin {
