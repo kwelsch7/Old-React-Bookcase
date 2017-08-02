@@ -1,11 +1,18 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export const PagingNav = props => (
-  <ul className="paging-buttons">
-    <li className="active-page">1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-  </ul>
-);
+const PagingNav = props => {
+  let listItems = [];
+  for(let index = 1; index <= props.pageCount; index++) {
+    let isActive = index === props.active;
+    listItems.push(<li className={isActive ? "active-page" : ""}>{index}</li>);
+  }
+  return <ul className="paging-buttons">{listItems}</ul>
+};
+
+PagingNav.propTypes = {
+  active: PropTypes.number.isRequired,
+  pageCount: PropTypes.number.isRequired
+};
+
+export default PagingNav;

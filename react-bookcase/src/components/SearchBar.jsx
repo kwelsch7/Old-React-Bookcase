@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export const SearchBar = props => (
+const SearchBar = props => (
   <div className="search-bar">
     <input type="text" length="42px" placeholder="Search..." />
     <span className="search-icon">
@@ -8,3 +9,9 @@ export const SearchBar = props => (
     </span>
   </div>
 );
+
+SearchBar.propTypes = {
+
+};
+
+export default SearchBar;

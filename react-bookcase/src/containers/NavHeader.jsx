@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import logo from '../assets/logo.svg';
-import { Link } from '../components/Link';
+import Link from '../components/Link';
 
 export class NavHeader extends React.Component {
   render() {

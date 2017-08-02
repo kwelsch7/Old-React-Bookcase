@@ -1,5 +1,13 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export const TableFootCaption = props => (
+const TableFootCaption = props => (
   <caption className={props.className}>{props.text}</caption>
 );
+
+TableFootCaption.propTypes = {
+  className: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired
+};
+
+export default TableFootCaption;

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Link } from '../components/Link';
+import React from 'react';
+import Link from '../components/Link';
 
 export class OptionsBox extends React.Component {
   render() {

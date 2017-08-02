@@ -68,8 +68,8 @@
   list-style: none;
   min-width: 150px;
   border-radius: 5px;
-  border: 1px solid #3a8296;
-  background-color: #a0e8fc;
+  border: 1px solid #c5c3c6;
+  background-color: #dcdcdd;
   margin: 0 25px 0 0;
   text-align: left;
 }
@@ -81,13 +81,13 @@
 .options-links {
   text-decoration: none;
   margin: 10px 0;
-  color: #1d414b;
+  color: #32292f;
   padding: 5px 8px;
 }
 
 .options-links:hover {
-  color: #306d7d;
-  background-color: #cff3fd;
+  color: #505051;
+  background-color: #c5c3c6;
 }
 
 .table-area {
@@ -103,7 +103,7 @@
 }
 
 input[type="text"] {
-  border: 1px solid #bbb;
+  border: 1px solid #c5c3c6;
   border-radius: 4px 0 0 4px;
   padding: 5px 7px;
 }
@@ -122,7 +122,8 @@ table {
 }
 
 th, td {
-  border: 1px solid #bbb;
+  border: 1px solid #c5c3c6;
+  padding: 5px;
 }
 
 th {
@@ -133,10 +134,11 @@ th {
 .table-foot-caption {
   font-size: small;
   min-height: 20px;
-  min-width: 160px;
+  min-width: 215px;
   padding: 5px 0 0 8px;
   margin-bottom: 0;
   color: #555;
+  text-align: left;
 }
 
 .paging-buttons {
@@ -150,7 +152,7 @@ th {
 
 .paging-buttons li {
   border-radius: 4px;
-  border: 1px solid #bbb;
+  border: 1px solid #c5c3c6;
   display: flex;
   justify-content: center;
   align-items: center;

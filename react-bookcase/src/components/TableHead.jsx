@@ -1,6 +1,7 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export const TableHead = props => {
+const TableHead = props => {
   const headers = props.headers.map((headerText, index) =>
     <th key={index}>
       {headerText}
@@ -8,3 +9,9 @@ export const TableHead = props => {
   );
   return <tr>{headers}</tr>;
 };
+
+TableHead.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired
+};
+
+export default TableHead;
