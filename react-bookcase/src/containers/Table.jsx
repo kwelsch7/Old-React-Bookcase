@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { BookRow } from '../components/BookRow';
+import { PagingNav } from '../components/PagingNav';
+import { SearchBar } from '../components/SearchBar';
+import { TableFootCaption } from '../components/TableFootCaption';
 import { TableHead } from '../components/TableHead';
 
 export class Table extends React.Component {
@@ -39,16 +42,21 @@ export class Table extends React.Component {
       ]
     ];
     return (
-      <table>
-        <thead>
-          <TableHead headers={tempHead}/>
-        </thead>
-        <tbody>
-          <BookRow rowItems={tempBookRows[0]} />
-          <BookRow rowItems={tempBookRows[1]} />
-          <BookRow rowItems={tempBookRows[2]} />
-        </tbody>
-      </table>
+      <div className="table-area">
+        <SearchBar />
+        <table>
+          <thead>
+            <TableHead headers={tempHead}/>
+          </thead>
+          <tbody>
+            <BookRow rowItems={tempBookRows[0]} />
+            <BookRow rowItems={tempBookRows[1]} />
+            <BookRow rowItems={tempBookRows[2]} />
+          </tbody>
+        </table>
+        <TableFootCaption text="Displaying 3 out of 3 books." className="table-foot-caption" />
+        <PagingNav />
+      </div>
     );
   }
 }
