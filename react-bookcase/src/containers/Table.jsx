@@ -10,8 +10,12 @@ import TableRow from '../components/TableRow';
 export class Table extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { currentPage: props.currentPage || 1 };
+    this.state = {
+      currentPage: props.currentPage || 1,
+      searchFilter: ""
+    };
     this.changePage = this.changePage.bind(this);
+    this.filterSearch = this.filterSearch.bind(this);
   }
 
   render() {
@@ -23,9 +27,11 @@ export class Table extends React.Component {
     const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high} of ${totalItems} ${contentType}.`;
     const emptyListText = `- No ${contentType} to display. -`;
 
+    console.log(this.state.searchFilter);
+
     return (
       <div className="table-area">
-        <SearchBar />
+        <SearchBar onInput={this.filterSearch} />
         <table>
           <thead>
             <TableHead headers={headRow}/>
@@ -33,10 +39,20 @@ export class Table extends React.Component {
           <tbody>
             {
               bodyRows ?
-              // filter by whether text in the rowItems contains the text in the search box
+              // filter the original set, not just the current page's rows
               bodyRows.map((rowArray, rowIndex) => (
                 <TableRow rowIndex={rowIndex} rowItems={rowArray} />
               )).slice(displayRange.low, displayRange.high)
+              .filter(tableRows => {
+                let include = false;
+                for(let row of tableRows.props.rowItems) {
+                  if(row.toLowerCase().includes(this.state.searchFilter)) {
+                    include = true;
+                    break;
+                  }
+                }
+                return include;
+              })
               : <tr><td colSpan={headRow.length}>{emptyListText}</td></tr>
             }
           </tbody>
@@ -69,6 +85,10 @@ export class Table extends React.Component {
 
   changePage(newPage) {
     this.setState({ currentPage: newPage.target.innerText });
+  }
+
+  filterSearch(searchBox) {
+    this.setState({ searchFilter: searchBox.target.value.toLowerCase() });
   }
 
   static propTypes = {
