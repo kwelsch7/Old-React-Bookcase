@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const SearchBar = props => (
   <div className="search-bar">
-    <input type="text" length="42px" placeholder="Search..." />
+    <input type="text" size="42px" placeholder="Search..." />
     <span className="search-icon">
       <i className="fa fa-search"></i>
     </span>

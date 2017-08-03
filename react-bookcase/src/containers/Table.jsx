@@ -8,13 +8,19 @@ import TableHead from '../components/TableHead';
 import TableRow from '../components/TableRow';
 
 export class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { currentPage: props.currentPage || 1 };
+    this.changePage = this.changePage.bind(this);
+  }
+
   render() {
-    let {contentType, headRow, bodyRows, itemsPerPage, currentPage} = this.props;
+    let {contentType, headRow, bodyRows, itemsPerPage} = this.props;
     itemsPerPage = itemsPerPage || 5;
-    currentPage = currentPage || 1;
     const totalItems = bodyRows ? bodyRows.length : 0;
-    const displayRange = this.calcItemRange(itemsPerPage, currentPage, totalItems);
-    const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high <= totalItems ? displayRange.high : totalItems} of ${totalItems} ${contentType}.`;
+    const displayRange = this.calcItemRange(itemsPerPage, this.state.currentPage, totalItems);
+    displayRange.high = displayRange.high <= totalItems ? displayRange.high : totalItems;
+    const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high} of ${totalItems} ${contentType}.`;
     const emptyListText = `- No ${contentType} to display. -`;
 
     return (
@@ -34,9 +40,9 @@ export class Table extends React.Component {
               : <tr><td colSpan={headRow.length}>{emptyListText}</td></tr>
             }
           </tbody>
+          <TableFootCaption text={captionText} />
         </table>
-        <TableFootCaption text={captionText} className="table-foot-caption" />
-        <PagingNav active={currentPage} pageCount={displayRange.totalPages} />
+        <PagingNav active={parseInt(this.state.currentPage)} pageCount={displayRange.totalPages} onClick={this.changePage} />
       </div>
     );
   }
@@ -61,11 +67,11 @@ export class Table extends React.Component {
     };
   }
 
-  changePage() {
-
+  changePage(newPage) {
+    this.setState({ currentPage: newPage.target.innerText });
   }
 
-  propTypes = {
+  static propTypes = {
     contentType: PropTypes.string.isRequired,
     itemsPerPage: PropTypes.number,
     currentPage: PropTypes.number,

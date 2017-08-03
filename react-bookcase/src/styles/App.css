@@ -132,6 +132,7 @@ th {
 }
 
 .table-foot-caption {
+  caption-side: bottom;
   font-size: small;
   min-height: 20px;
   min-width: 215px;
