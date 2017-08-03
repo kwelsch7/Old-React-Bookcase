@@ -14,20 +14,20 @@ export class Table extends React.Component {
       currentPage: props.currentPage || 1,
       searchFilter: ""
     };
-    this.changePage = this.changePage.bind(this);
     this.filterSearch = this.filterSearch.bind(this);
+    this.changePage = this.changePage.bind(this);
   }
 
   render() {
     let {contentType, headRow, bodyRows, itemsPerPage} = this.props;
     itemsPerPage = itemsPerPage || 5;
-    const totalItems = bodyRows ? bodyRows.length : 0;
-    const displayRange = this.calcItemRange(itemsPerPage, this.state.currentPage, totalItems);
-    displayRange.high = displayRange.high <= totalItems ? displayRange.high : totalItems;
+    bodyRows = bodyRows || [];
+    bodyRows = this.trimByFilter(bodyRows);
+    const totalItems = bodyRows.length;
+    let currentPage = this.fromStateOrLessIfFiltered(itemsPerPage, totalItems);
+    const displayRange = this.calcItemRange(itemsPerPage, currentPage, totalItems);
     const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high} of ${totalItems} ${contentType}.`;
     const emptyListText = `- No ${contentType} to display. -`;
-
-    console.log(this.state.searchFilter);
 
     return (
       <div className="table-area">
@@ -39,28 +39,40 @@ export class Table extends React.Component {
           <tbody>
             {
               bodyRows ?
-              // filter the original set, not just the current page's rows
               bodyRows.map((rowArray, rowIndex) => (
                 <TableRow rowIndex={rowIndex} rowItems={rowArray} />
               )).slice(displayRange.low, displayRange.high)
-              .filter(tableRows => {
-                let include = false;
-                for(let row of tableRows.props.rowItems) {
-                  if(row.toLowerCase().includes(this.state.searchFilter)) {
-                    include = true;
-                    break;
-                  }
-                }
-                return include;
-              })
               : <tr><td colSpan={headRow.length}>{emptyListText}</td></tr>
             }
           </tbody>
           <TableFootCaption text={captionText} />
         </table>
-        <PagingNav active={parseInt(this.state.currentPage)} pageCount={displayRange.totalPages} onClick={this.changePage} />
+        <PagingNav active={parseInt(currentPage)} pageCount={displayRange.totalPages} onClick={this.changePage} />
       </div>
     );
+  }
+
+  trimByFilter(bodyRows) {
+    return bodyRows.filter(row => {
+      let include = false;
+      for(let item of row) {
+        if(item.toLowerCase().includes(this.state.searchFilter)) {
+          include = true;
+          break;
+        }
+      }
+      return include;
+    });
+  }
+
+  fromStateOrLessIfFiltered(itemsPerPage, totalItems) {
+    let currentPage = this.state.currentPage;
+    let tempLow = itemsPerPage * (currentPage - 1);
+    while(tempLow > totalItems) {
+      currentPage--;
+      tempLow = itemsPerPage * (currentPage - 1);
+    }
+    return currentPage;
   }
 
   calcItemRange(itemsPerPage, currentPage, totalItems) {
@@ -74,6 +86,7 @@ export class Table extends React.Component {
 
     let low = itemsPerPage * (currentPage - 1);
     let high = low + itemsPerPage;
+    high = high <= totalItems ? high : totalItems;
     let totalPages = Math.ceil(totalItems / itemsPerPage);
 
     return {
@@ -83,12 +96,12 @@ export class Table extends React.Component {
     };
   }
 
-  changePage(newPage) {
-    this.setState({ currentPage: newPage.target.innerText });
-  }
-
   filterSearch(searchBox) {
     this.setState({ searchFilter: searchBox.target.value.toLowerCase() });
+  }
+
+  changePage(newPage) {
+    this.setState({ currentPage: newPage.target.innerText });
   }
 
   static propTypes = {
