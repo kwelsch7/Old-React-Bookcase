@@ -12,9 +12,10 @@ export class Table extends React.Component {
     let {contentType, headRow, bodyRows, itemsPerPage, currentPage} = this.props;
     itemsPerPage = itemsPerPage || 5;
     currentPage = currentPage || 1;
-    const captionText = `Displaying ${bodyRows ? bodyRows.length : 0} out of ${bodyRows ? bodyRows.length : 0} ${contentType}.`; // low to high of total items
+    const totalItems = bodyRows ? bodyRows.length : 0;
+    const displayRange = this.calcItemRange(itemsPerPage, currentPage, totalItems);
+    const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high <= totalItems ? displayRange.high : totalItems} of ${totalItems} ${contentType}.`;
     const emptyListText = `- No ${contentType} to display. -`;
-    const displayRange = this.calcItemRange(itemsPerPage, currentPage, bodyRows.length);
 
     return (
       <div className="table-area">
@@ -41,7 +42,15 @@ export class Table extends React.Component {
   }
 
   calcItemRange(itemsPerPage, currentPage, totalItems) {
-    let low = itemsPerPage * (currentPage - 1) + 1;
+    if(totalItems === 0) {
+      return {
+        low: 0,
+        high: 0,
+        totalPages: 1
+      };
+    }
+
+    let low = itemsPerPage * (currentPage - 1);
     let high = low + itemsPerPage;
     let totalPages = Math.ceil(totalItems / itemsPerPage);
 
@@ -50,6 +59,10 @@ export class Table extends React.Component {
       high: high,
       totalPages: totalPages
     };
+  }
+
+  changePage() {
+
   }
 
   propTypes = {
