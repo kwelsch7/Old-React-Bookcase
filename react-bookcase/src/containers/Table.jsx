@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ItemsPerDropdown from '../components/ItemsPerDropdown';
 import PagingNav from '../components/PagingNav';
 import SearchBar from '../components/SearchBar';
 import TableFootCaption from '../components/TableFootCaption';
@@ -12,25 +13,27 @@ export class Table extends React.Component {
     super(props);
     this.state = {
       currentPage: props.currentPage || 1,
-      searchFilter: ""
+      searchFilter: "",
+      itemsPerPage: props.itemsPerPage || 5
     };
+    this.updateItemsPerPage = this.updateItemsPerPage.bind(this);
     this.filterSearch = this.filterSearch.bind(this);
     this.changePage = this.changePage.bind(this);
   }
 
   render() {
-    let {contentType, headRow, bodyRows, itemsPerPage} = this.props;
-    itemsPerPage = itemsPerPage || 5;
+    let {contentType, headRow, bodyRows} = this.props;
     bodyRows = bodyRows || [];
     bodyRows = this.trimByFilter(bodyRows);
     const totalItems = bodyRows.length;
-    let currentPage = this.fromStateOrLessIfFiltered(itemsPerPage, totalItems);
-    const displayRange = this.calcItemRange(itemsPerPage, currentPage, totalItems);
+    let currentPage = this.fromStateOrLessIfFiltered(this.state.itemsPerPage, totalItems);
+    const displayRange = this.calcItemRange(this.state.itemsPerPage, currentPage, totalItems);
     const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high} of ${totalItems} ${contentType}.`;
     const emptyListText = `- No ${contentType} to display. -`;
 
     return (
       <div className="table-area">
+        <ItemsPerDropdown onChange={this.updateItemsPerPage} />
         <SearchBar onInput={this.filterSearch} />
         <table>
           <thead>
@@ -68,7 +71,7 @@ export class Table extends React.Component {
   fromStateOrLessIfFiltered(itemsPerPage, totalItems) {
     let currentPage = this.state.currentPage;
     let tempLow = itemsPerPage * (currentPage - 1);
-    while(tempLow > totalItems) {
+    while(tempLow >= totalItems) {
       currentPage--;
       tempLow = itemsPerPage * (currentPage - 1);
     }
@@ -94,6 +97,10 @@ export class Table extends React.Component {
       high: high,
       totalPages: totalPages
     };
+  }
+
+  updateItemsPerPage(chosen) {
+    this.setState({ itemsPerPage: parseInt(chosen.target.value) });
   }
 
   filterSearch(searchBox) {

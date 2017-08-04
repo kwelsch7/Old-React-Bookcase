@@ -94,6 +94,26 @@
   min-width: 75%;
 }
 
+.items-per-dropdown-container {
+  display: block;
+  float: left;
+  font-size: small;
+  color: #555;
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.items-per-dropdown-container label {
+  display: block;
+}
+
+.items-per-dropdown {
+  border: 1px solid #c5c3c6;
+  border-radius: 4px;
+  height: 28px;
+  margin-right: 10px;
+}
+
 .search-bar {
   border-radius: 4px;
   display: flex;
