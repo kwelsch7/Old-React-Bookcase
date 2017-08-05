@@ -13,6 +13,7 @@
 .App-content {
   padding: 0 250px;
   text-align: center;
+  color: #222;
 }
 
 .App-intro {
@@ -48,9 +49,6 @@
 
 .nav-links:hover {
   color: #aaa;
-}
-
-a:hover {
   text-decoration: underline;
 }
 
@@ -68,40 +66,136 @@ a:hover {
   display: flex;
   flex-direction: column;
   list-style: none;
-  min-width: 200px;
+  min-width: 150px;
   border-radius: 5px;
-  border: 1px solid #0288d1;
-  background-color: #b3e5fc;
+  border: 1px solid #c5c3c6;
+  background-color: #dcdcdd;
   margin: 0 25px 0 0;
+  text-align: left;
 }
 
 .options-box li {
-  margin: 10px 0;
+  margin: 10px 0 10px 20px;
 }
 
 .options-links {
   text-decoration: none;
   margin: 10px 0;
-  color: #01579b;
+  color: #32292f;
+  padding: 5px 8px;
 }
 
 .options-links:hover {
-  color: #0288d1;
+  color: #505051;
+  background-color: #c5c3c6;
+}
+
+.table-area {
+  min-width: 75%;
+}
+
+.items-per-dropdown-container {
+  display: block;
+  float: left;
+  font-size: small;
+  color: #555;
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.items-per-dropdown-container label {
+  display: block;
+}
+
+.items-per-dropdown {
+  border: 1px solid #c5c3c6;
+  border-radius: 4px;
+  height: 28px;
+  margin-right: 10px;
+}
+
+.search-bar {
+  border-radius: 4px;
+  display: flex;
+  justify-content: flex-end;
+  height: 28px;
+  margin: 0 8px 10px 0;
+}
+
+input[type="search"] {
+  border: 1px solid #c5c3c6;
+  border-radius: 4px 0 0 4px;
+  padding: 5px 7px;
+}
+
+.search-icon {
+  background-color: #222;
+  color: #61dafb;
+  padding: 5px 7px;
+  border-radius: 0 4px 4px 0;
 }
 
 table {
   border: 1px solid #222;
   border-collapse: collapse;
-  min-width: 75%;
+  min-width: 100%;
 }
 
 th, td {
-  border: 1px solid #bbb;
+  border: 1px solid #c5c3c6;
+  padding: 5px;
 }
 
 th {
   border-bottom: 2px solid #999;
   background-color: #61dafb;
+}
+
+.table-foot-caption {
+  caption-side: bottom;
+  font-size: small;
+  min-height: 20px;
+  min-width: 215px;
+  padding: 5px 0 0 8px;
+  margin-bottom: 0;
+  color: #555;
+  text-align: left;
+}
+
+.paging-buttons {
+  padding-left: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  list-style: none;
+}
+
+.paging-buttons li {
+  border-radius: 4px;
+  border: 1px solid #c5c3c6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.paging-buttons li:hover {
+  background-color: #bbb;
+}
+
+.active-page {
+  background-color: #222;
+  border-color: #222 !important;
+  color: #61dafb;
+  cursor: default !important;
+}
+
+.active-page:hover {
+  background-color: #222 !important;
 }
 
 @keyframes App-logo-spin {
@@ -115,7 +209,7 @@ th {
     order: 1;
   }
 
-  table {
+  .table-area {
     flex-grow: 3;
     flex-basis: 0;
     order: 2;

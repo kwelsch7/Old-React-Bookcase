@@ -1,54 +1,121 @@
-import * as React from 'react';
-import { BookRow } from '../components/BookRow';
-import { TableHead } from '../components/TableHead';
+import React from 'react';
+import PropTypes from 'prop-types';
+
+import ItemsPerDropdown from '../components/ItemsPerDropdown';
+import PagingNav from '../components/PagingNav';
+import SearchBar from '../components/SearchBar';
+import TableFootCaption from '../components/TableFootCaption';
+import TableHead from '../components/TableHead';
+import TableRow from '../components/TableRow';
 
 export class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: props.currentPage || 1,
+      searchFilter: "",
+      itemsPerPage: props.itemsPerPage || 5
+    };
+    this.updateItemsPerPage = this.updateItemsPerPage.bind(this);
+    this.filterSearch = this.filterSearch.bind(this);
+    this.changePage = this.changePage.bind(this);
+  }
+
   render() {
-    const tempHead = [
-      "ISBN",
-      "Title",
-      "Author",
-      "Genre",
-      "Edit",
-      "Delete"
-    ];
-    const tempBookRows = [
-      [
-        "9786453126452",
-        "The Silmarillion",
-        "J.R.R. Tolkein",
-        "Fantasy",
-        "Edit",
-        "Delete"
-      ],
-      [
-        "9789789789789",
-        "Elantris",
-        "Brandon Sanderson",
-        "Fantasy",
-        "Edit",
-        "Delete"
-      ],
-      [
-        "9783123123123",
-        "7 Years of Highly Defective People",
-        "Scott Adams",
-        "Humor",
-        "Edit",
-        "Delete"
-      ]
-    ];
+    let {contentType, headRow, bodyRows} = this.props;
+    bodyRows = bodyRows || [];
+    bodyRows = this.trimByFilter(bodyRows);
+    const totalItems = bodyRows.length;
+    let currentPage = this.fromStateOrLessIfFiltered(this.state.itemsPerPage, totalItems);
+    const displayRange = this.calcItemRange(this.state.itemsPerPage, currentPage, totalItems);
+    const captionText = `Displaying ${totalItems > 0 ? displayRange.low + 1 : 0} to ${displayRange.high} of ${totalItems} ${contentType}.`;
+    const emptyListText = `- No ${contentType} to display. -`;
+
     return (
-      <table>
-        <thead>
-          <TableHead headers={tempHead}/>
-        </thead>
-        <tbody>
-          <BookRow rowItems={tempBookRows[0]} />
-          <BookRow rowItems={tempBookRows[1]} />
-          <BookRow rowItems={tempBookRows[2]} />
-        </tbody>
-      </table>
+      <div className="table-area">
+        <ItemsPerDropdown onChange={this.updateItemsPerPage} />
+        <SearchBar onInput={this.filterSearch} />
+        <table>
+          <thead>
+            <TableHead headers={headRow}/>
+          </thead>
+          <tbody>
+            {
+              bodyRows ?
+              bodyRows.map((rowArray, rowIndex) => (
+                <TableRow rowIndex={rowIndex} rowItems={rowArray} />
+              )).slice(displayRange.low, displayRange.high)
+              : <tr><td colSpan={headRow.length}>{emptyListText}</td></tr>
+            }
+          </tbody>
+          <TableFootCaption text={captionText} />
+        </table>
+        <PagingNav active={parseInt(currentPage)} pageCount={displayRange.totalPages} onClick={this.changePage} />
+      </div>
     );
   }
+
+  trimByFilter(bodyRows) {
+    return bodyRows.filter(row => {
+      let include = false;
+      for(let item of row) {
+        if(item.toLowerCase().includes(this.state.searchFilter)) {
+          include = true;
+          break;
+        }
+      }
+      return include;
+    });
+  }
+
+  fromStateOrLessIfFiltered(itemsPerPage, totalItems) {
+    let currentPage = this.state.currentPage;
+    let tempLow = itemsPerPage * (currentPage - 1);
+    while(tempLow >= totalItems) {
+      currentPage--;
+      tempLow = itemsPerPage * (currentPage - 1);
+    }
+    return currentPage;
+  }
+
+  calcItemRange(itemsPerPage, currentPage, totalItems) {
+    if(totalItems === 0) {
+      return {
+        low: 0,
+        high: 0,
+        totalPages: 1
+      };
+    }
+
+    let low = itemsPerPage * (currentPage - 1);
+    let high = low + itemsPerPage;
+    high = high <= totalItems ? high : totalItems;
+    let totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    return {
+      low: low,
+      high: high,
+      totalPages: totalPages
+    };
+  }
+
+  updateItemsPerPage(chosen) {
+    this.setState({ itemsPerPage: parseInt(chosen.target.value) });
+  }
+
+  filterSearch(searchBox) {
+    this.setState({ searchFilter: searchBox.target.value.toLowerCase() });
+  }
+
+  changePage(newPage) {
+    this.setState({ currentPage: newPage.target.innerText });
+  }
+
+  static propTypes = {
+    contentType: PropTypes.string.isRequired,
+    itemsPerPage: PropTypes.number,
+    currentPage: PropTypes.number,
+    headRow: PropTypes.arrayOf(PropTypes.string).isRequired,
+    bodyRows: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+  };
 }
