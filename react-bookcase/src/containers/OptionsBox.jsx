@@ -24,8 +24,6 @@ export class OptionsBox extends React.Component {
             <Link to="/#"><i className="fa fa-image"/>  Themes</Link>
           </li>
         </ul>
-
-        <Route exact path="/newbook" component={NewBook} />
       </div>
     );
   }

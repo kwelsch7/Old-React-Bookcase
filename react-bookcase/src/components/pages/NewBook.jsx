@@ -1,9 +1,9 @@
 import React from 'react';
 
 export const NewBook = props => (
-  <div>
-    <h1 className="App-intro">Create a new book</h1>
-    <h2 className="App-description">Please provide the necessary information to put another one on the shelf.</h2>
+  <div className="new-book-page">
+    <h3 className="App-intro">Create a new book</h3>
+    <h4 className="App-description">Please provide the necessary information to put another one on the shelf.</h4>
     <form>
       <label>ISBN</label>
       <input type="text" placeholder="ISBN..." />

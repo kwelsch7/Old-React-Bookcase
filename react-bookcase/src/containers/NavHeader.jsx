@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
+import { Table } from './Table';
 
 export class NavHeader extends React.Component {
   render() {
@@ -19,7 +20,6 @@ export class NavHeader extends React.Component {
             <Link to="/#">Docs</Link>
           </li>
         </ul>
-        
       </nav>
     );
   }

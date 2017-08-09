@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 
 import { Table } from './Table';
 import { NewBook } from '../components/pages/NewBook';
@@ -120,12 +121,20 @@ export class Content extends React.Component {
         </h2>
         <div className="content-container">
           <OptionsBox />
-          <Table contentType="books"
-            headRow={tempHead}
-            bodyRows={tempBookRows}
-            itemsPerPage={numberOfItemsPerPage}
-            currentPage={currentPage}/>
+          <div className="main-content">
+            <Route exact path="/" render={() => (
+              <Table contentType="books"
+                headRow={tempHead}
+                bodyRows={tempBookRows}
+                itemsPerPage={numberOfItemsPerPage}
+                currentPage={currentPage}/>
+              )}
+            />
+            <Route exact path="/newbook" component={NewBook} />
+          </div>
         </div>
+        <hr/>
+        <footer>&copy; 2017 - Konnor Welsch</footer>
       </div>
     );
   }
