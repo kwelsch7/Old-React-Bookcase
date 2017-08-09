@@ -1,5 +1,7 @@
 import React from 'react';
+
 import { Table } from './Table';
+import { NewBook } from '../components/pages/NewBook';
 import { OptionsBox } from './OptionsBox';
 
 export class Content extends React.Component {
